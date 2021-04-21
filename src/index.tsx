@@ -9,7 +9,7 @@ interface User {
 }
 let user:User = {
     name:'zhufeng',
-    password:'123456'
+    password:'12387456'
 }
 //利用axios对象：返回一个promise
 //封装的get请求
@@ -26,11 +26,12 @@ let user:User = {
 //封装post请求
 axios({
     method:'post',
-    url:baseUrl+'/post',
+    url:baseUrl+'/post_timeout?timeout=2000',
     headers:{
         'content-type':'application/json'
     },
-    data:user //查询参数对象
+    data:user, //查询参数对象,
+    timeout:1000 // 超时时间
 }).then((response)=>{
     console.log(response)
 }).catch((e:any)=>{

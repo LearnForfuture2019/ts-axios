@@ -32,15 +32,17 @@ app.post('/post_timeout', function (req, res) {
     }
     setTimeout(function () {
         res.json(req.body)
-    })
+    },timeout)
 })
 app.post('/post_status',function (req,res) {
     let {code} = req.query
+    console.log(code)
     if (code){
         code = parseInt(code)
     }else {
         code = 200
     }
+
     res.statusCode = code
     res.json(req.body)
 })
