@@ -5,7 +5,7 @@ export interface AxiosRequestConfig {
     url:string,
     method:Methods,
     //Reacord<string,any>:代表的是一个对象，它的属性是字符串，属性是any
-    params:Record<string, any>
+    params:any
 }
 //指的是Axios.prototype.request这个方法
 //Promise的泛型T代表此promise编程成功状态之后resolve的值  resolve(value)

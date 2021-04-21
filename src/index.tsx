@@ -1,4 +1,4 @@
-import axios,{AxiosResponse,AxiosRequestConfig} from 'axios'
+import axios,{AxiosResponse,AxiosRequestConfig} from './axios/index'
 //基本url
 const baseUrl = 'http://localhost:8080'
 //定义一个接口user：这里指的是服务器返回的对象
