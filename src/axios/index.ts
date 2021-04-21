@@ -4,7 +4,7 @@ import {AxiosInstance} from './types'
 //定义一个类的时候，一个类的原型：Axiois.prototype ；一个类的实例
 function createInstance():AxiosInstance {
     let context:Axios = new Axios() //this指向上下文
-    //让request方法里的this永远指向context也就输new Axios()
+    //让request方法里的this永远指向context也就是new Axios()
     let instance = Axios.prototype.request.bind(context)
     //这一步是将Axios.prototype以及context上的所有属性，拷贝到instance上
     //Object.assign()

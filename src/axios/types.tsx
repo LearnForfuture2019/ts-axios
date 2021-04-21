@@ -1,4 +1,5 @@
 //用来定义各种类型
+import Axios from "./Axios";
 export type Methods = 'get'| 'GET' | 'post'|'POST'|'put'|'PUT'|'delete'|'DELETE'|'options'|'OPTIONS'|'post_status'|'post_timeout'
 
 export interface AxiosRequestConfig {
@@ -13,7 +14,12 @@ export interface AxiosRequestConfig {
 //指的是Axios.prototype.request这个方法
 //Promise的泛型T代表此promise编程成功状态之后resolve的值  resolve(value)
 export interface AxiosInstance {
-    <T = any>(config:AxiosRequestConfig):Promise<T>
+    <T = any>(config:AxiosRequestConfig):Promise<AxiosResponse<T>>;
+    //封装请求拦截器与响应拦截器
+    interceptors:{
+        request:AxiosInterceptorManager<AxiosRequestConfig>
+        response:AxiosInterceptorManager<AxiosResponse>
+    }
 }
 //泛型T代表响应体的类型
 export interface AxiosResponse<T = any> {
