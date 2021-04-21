@@ -12,7 +12,7 @@ export default class Axios {
     //定义一个派发请求的方法
     dispatchRequest<T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>> {
         return new Promise<AxiosResponse<T>>(function (resolve, reject) {
-            let {method, url, params} = config
+            let {method, url, params,headers,data} = config
             if (params && typeof params === 'object') {
                 //使用qs对传入参数进行转换
                 //{name:'zhufeng',password:'123456'} => name=zhufeng&password=123456
@@ -21,10 +21,10 @@ export default class Axios {
             //拿到请求的参数，将其附在url后面
             //两种情况：如果已经有问号，表示已存在参数，添加&即可
             //          如果没有问好，表示还没有问好，添加？
-            url += ((url.indexOf('?') !== -1 ? '&' : '?') + params)
+            url += ((url!.indexOf('?') !== -1 ? '&' : '?') + params)
             //创建XMLHTTPReques对象
             let request = new XMLHttpRequest()
-            request.open(method, url, true)
+            request.open(method!, url!, true)
             //告诉服务器希望接收的类型，希望接收的是一个对象
             request.responseType = 'json'
             request.onreadystatechange = function () { //指定一个状态变更函数
@@ -52,7 +52,18 @@ export default class Axios {
                     }
                 }
             }
-            request.send() // 发送请求
+            //处理请求头
+            if (headers){
+                for (let key in headers){
+                    request.setRequestHeader(key,headers[key])
+                }
+            }
+            //处理请求体
+            let body : string | null = null
+            if (data){
+                body = JSON.stringify(data)
+            }
+            request.send(body) // 发送请求
         })
     }
 }
