@@ -11,7 +11,7 @@ export interface Interceptor<V> {
 }
 
 //T可能是AxiosRequestConfig，也可能是AxiosResponse
-class InterceptorManager<V> {
+class AxiosInterceptorManager<V> {
     public interceptors:Array<Interceptor<V>| null > = []
     use(onFulfilled?:OnFulfilled<V>,onRejected?:OnRejected):number{
         this.interceptors.push({
@@ -27,4 +27,4 @@ class InterceptorManager<V> {
     }
 }
 
-export default InterceptorManager
+export default AxiosInterceptorManager

@@ -1,12 +1,27 @@
 //axios类
-
+import AxiosInterceptorManager, {Interceptor} from "./AxiosInterceptorManager";
 import {AxiosRequestConfig, AxiosResponse} from "./types";
 import qs from 'qs'
 import parseHeaders from 'parse-headers'//parse-headers没有@type/parse-header声明文件
-export default class Axios {
+export default class Axios<T> {
+
+    public interceptors = {
+        request: new AxiosInterceptorManager<AxiosRequestConfig>(),
+        response: new AxiosInterceptorManager<AxiosResponse<T>>()
+    }
+
     //T用来限制响应对象response里的data的类型
-    request<T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-        return this.dispatchRequest(config)
+    request(config: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+        // return this.dispatchRequest(config)
+        const chain: Interceptor<AxiosRequestConfig | AxiosResponse<T>>[] = [
+            {
+                onFulfilled: this.dispatchRequest,
+            }
+        ]
+        //将请求拦截器放入chain里
+        this.interceptors.request.interceptors.forEach((interceptor:Interceptor<AxiosRequestConfig | AxiosResponse<T>)=>{
+            interceptor && chain.unshift(interceptor)
+        })
     }
 
     //定义一个派发请求的方法
